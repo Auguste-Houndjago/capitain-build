@@ -167,22 +167,56 @@ document.getElementById('euphre').addEventListener('click', () => {
     document.getElementById('aglaea').classList.remove('active')
     document.getElementById('thalia').classList.remove('active')
     document.getElementById('content').innerHTML = 'Travailler les abdominaux ne suffit pas à les faire ressortir. Il est essentiel d’adopter une hygiène de vie complète. Voici les piliers à respecter: Adoptez une alimentation équilibrée, Dormez suffisamment, Hydratez-vous régulièrement'
-    animateCamera({ x: -0.4, y: 2.7, z: 1.9 },{ y: -0.6 })
+    animateCamera({ x: -0.8, y: 2.7, z: 1.9 },{ y: -0.6 })
 })
 
 /////////////////////////////////////////////////////////////////////////
-//// ANIMATE CAMERA
-function animateCamera(position, rotation){
-    new TWEEN.Tween(camera2.position).to(position, 1800).easing(TWEEN.Easing.Quadratic.InOut).start()
-    .onComplete(function () {
-        TWEEN.remove(this)
-    })
-    new TWEEN.Tween(camera2.rotation).to(rotation, 1800).easing(TWEEN.Easing.Quadratic.InOut).start()
-    .onComplete(function () {
-        TWEEN.remove(this)
-    })
-}
+// //// ANIMATE CAMERA
+// function animateCamera(position, rotation){
+//     new TWEEN.Tween(camera2.position).to(position, 1800).easing(TWEEN.Easing.Quadratic.InOut).start()
+//     .onComplete(function () {
+//         TWEEN.remove(this)
+//     })
+//     new TWEEN.Tween(camera2.rotation).to(rotation, 1800).easing(TWEEN.Easing.Quadratic.InOut).start()
+//     .onComplete(function () {
+//         TWEEN.remove(this)
+//     })
+// }
 
+const mediaQueryMobile = window.matchMedia('(max-width: 768px)');
+const mediaQueryTablet = window.matchMedia('(min-width: 769px) and (max-width: 1024px)');
+function animateCamera(position, rotation) {
+
+
+    if (mediaQueryMobile.matches) {
+        position.x *= 0.4;
+        position.z *= 0.7;
+        rotation.y *= 0.5;
+      } 
+    // const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad/i.test(navigator.userAgent);
+    
+    // if (isMobile) {
+    //     // Apply reduced motion
+    //     position.x *= 0.7;
+    //     position.z *= 0.7;
+    //     rotation.y *= 0.5;
+    // }
+
+
+    // Animation de la position
+    const positionTween = new TWEEN.Tween(camera2.position)
+        .to(position, 1800)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .start()
+        .onComplete(() => TWEEN.remove(positionTween)); // Fix: Use the tween instance
+
+    // Animation de la rotation
+    const rotationTween = new TWEEN.Tween(camera2.rotation)
+        .to(rotation, 1800)
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .start()
+        .onComplete(() => TWEEN.remove(rotationTween)); // Fix: Use the tween instance
+}
 /////////////////////////////////////////////////////////////////////////
 //// PARALLAX CONFIG
 const cursor = {x:0, y:0}
